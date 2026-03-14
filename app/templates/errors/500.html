@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block title %}Erro interno{% endblock %}
+{% block content %}
+<div class="text-center py-5 animate-fade">
+  <p style="font-size:6rem;font-weight:800;color:var(--clr-border);line-height:1;">500</p>
+  <h2 style="color:var(--clr-primary-dark);">Algo deu errado</h2>
+  <p style="color:var(--clr-text-secondary);" class="mb-4">Ocorreu um erro interno no servidor. Tente novamente em instantes.</p>
+  <a href="{{ url_for('auth.dashboard') }}" class="btn btn-success">
+    <i class="bi bi-house"></i>Voltar ao início
+  </a>
+</div>
+{% endblock %}

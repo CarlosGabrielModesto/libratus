@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block title %}Página não encontrada{% endblock %}
+{% block content %}
+<div class="text-center py-5 animate-fade">
+  <p style="font-size:6rem;font-weight:800;color:var(--clr-border);line-height:1;">404</p>
+  <h2 style="color:var(--clr-primary-dark);">Página não encontrada</h2>
+  <p style="color:var(--clr-text-secondary);" class="mb-4">O endereço que você tentou acessar não existe ou foi movido.</p>
+  <a href="{{ url_for('auth.dashboard') }}" class="btn btn-success">
+    <i class="bi bi-house"></i>Voltar ao início
+  </a>
+</div>
+{% endblock %}

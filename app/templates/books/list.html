@@ -1,0 +1,106 @@
+{% extends 'layout.html' %}
+{% block title %}Livros{% endblock %}
+
+{% block content %}
+
+<div class="d-flex align-items-start justify-content-between mb-1 flex-wrap gap-3">
+  <div>
+    <h2 class="page-title mb-0">Gerenciar Livros</h2>
+    <div class="section-divider"></div>
+  </div>
+  <a class="btn btn-success" href="{{ url_for('books.register_book') }}">
+    <i class="bi bi-plus-circle"></i>Novo Livro
+  </a>
+</div>
+
+<div class="card p-4 animate-fade">
+  <div class="card-header-custom">
+    <h5 class="card-title-custom">
+      <i class="bi bi-book-half me-2" style="color:var(--clr-primary);"></i>
+      Acervo da Biblioteca
+    </h5>
+    <span class="meta-chip"><i class="bi bi-book me-1"></i>{{ livros|length }} títulos</span>
+  </div>
+
+  <div class="table-responsive">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>ISBN</th>
+          <th class="text-center">Exemplares</th>
+          <th class="text-center">Disponíveis</th>
+          <th class="text-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for livro in livros %}
+        <tr>
+          <td>
+            <strong>{{ livro.titulo }}</strong>
+            {% if livro.edicao %}<br><small style="color:var(--clr-text-muted);">{{ livro.edicao }}</small>{% endif %}
+          </td>
+          <td style="color:var(--clr-text-secondary);">{{ livro.autor }}</td>
+          <td style="font-family:monospace;font-size:.85rem;">{{ livro.isbn }}</td>
+          <td class="text-center">{{ livro.exemplares }}</td>
+          <td class="text-center">
+            {% if livro.disponiveis > 0 %}
+              <span class="badge-status badge-ativo">{{ livro.disponiveis }}</span>
+            {% else %}
+              <span class="badge-status badge-atrasado">Esgotado</span>
+            {% endif %}
+          </td>
+          <td class="text-center">
+            <div class="d-flex justify-content-center gap-2">
+              <a href="{{ url_for('books.edit_book', isbn=livro.isbn) }}"
+                 class="btn btn-warning-custom btn-sm btn-table">
+                <i class="bi bi-pencil"></i>Editar
+              </a>
+              <button type="button" class="btn btn-danger btn-sm btn-table"
+                      data-bs-toggle="modal" data-bs-target="#modalDelBook{{ loop.index }}">
+                <i class="bi bi-trash"></i>Excluir
+              </button>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6" class="td-empty">
+            <i class="bi bi-book"></i>
+            Nenhum livro cadastrado no acervo ainda.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% for livro in livros %}
+<div class="modal fade" id="modalDelBook{{ loop.index }}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2 text-danger"></i>Excluir Livro</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body text-center py-3">
+        <p class="mb-1">Deseja excluir o livro</p>
+        <strong>{{ livro.titulo }}</strong>?
+        <p class="mt-2 mb-0" style="font-size:.8125rem;color:var(--clr-text-muted);">
+          Exemplares emprestados: <strong>{{ livro.emprestados }}</strong>
+        </p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+        <form method="post" action="{{ url_for('books.delete_book', isbn=livro.isbn) }}">
+          <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i>Confirmar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

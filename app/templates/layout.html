@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Libratus{% endblock %} — Libratus</title>
+
+  <meta name="robots"      content="noindex, nofollow">
+  <meta name="author"      content="Carlos Gabriel dos Santos Modesto">
+  <meta name="description" content="Libratus — Sistema de Gestão de Biblioteca">
+  <link rel="icon" href="/static/img/logo.png" type="image/png">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Folha de estilos da aplicação -->
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body class="page-wrapper">
+
+  <!-- ── Navbar ───────────────────────────────────────────────────────── -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+
+      <a class="navbar-brand" href="{{ url_for('auth.dashboard') }}">
+        <img src="/static/img/logo.png" alt="Libratus">
+        Libra<span style="color:var(--clr-primary)">tus</span>
+      </a>
+
+      <button class="navbar-toggler border-0" type="button"
+              data-bs-toggle="collapse" data-bs-target="#navMain"
+              aria-controls="navMain" aria-expanded="false" aria-label="Menu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navMain">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 gap-1">
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint and 'books.' in request.endpoint and 'rental' not in request.endpoint %}active{% endif %}"
+               href="{{ url_for('books.list_book') }}">
+              <i class="bi bi-book me-1"></i>Livros
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint and 'auth.' in request.endpoint and request.endpoint not in ['auth.login','auth.dashboard','auth.logout'] %}active{% endif %}"
+               href="{{ url_for('auth.list_users') }}">
+              <i class="bi bi-people me-1"></i>Usuários
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {% if request.endpoint and 'rental' in (request.endpoint or '') %}active{% endif %}"
+               href="{{ url_for('books.list_rentals') }}">
+              <i class="bi bi-arrow-left-right me-1"></i>Empréstimos
+            </a>
+          </li>
+        </ul>
+
+        <div class="d-flex align-items-center gap-3">
+          <span class="d-none d-lg-inline" style="font-size:.8125rem;color:var(--clr-text-muted);">
+            <i class="bi bi-person-circle me-1"></i>{{ session.user_name }}
+          </span>
+          <button type="button" class="btn btn-logout"
+                  data-bs-toggle="modal" data-bs-target="#modalLogout">
+            <i class="bi bi-box-arrow-right"></i>Sair
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Conteúdo principal ────────────────────────────────────────────── -->
+  <main class="main-content">
+    <div class="container">
+
+      <!-- Flash messages globais -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="mb-4">
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                <i class="bi {% if category == 'success' %}bi-check-circle{% elif category == 'danger' %}bi-exclamation-circle{% elif category == 'warning' %}bi-exclamation-triangle{% else %}bi-info-circle{% endif %} me-2"></i>
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </div>
+  </main>
+
+  <!-- ── Rodapé ────────────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <span>© 2025 <strong>Libratus</strong> — Todos os direitos reservados.</span>
+      <span>Desenvolvido por <strong>Carlos Modesto</strong> &nbsp;·&nbsp; v1.0.0</span>
+    </div>
+  </footer>
+
+  <!-- ── Modal de logout ───────────────────────────────────────────────── -->
+  <div class="modal fade" id="modalLogout" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="bi bi-box-arrow-right me-2"></i>Confirmar Saída</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body text-center py-4">
+          <p class="mb-0">Tem certeza que deseja <strong>sair</strong> do sistema?</p>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <form method="post" action="{{ url_for('auth.logout') }}">
+            <button type="submit" class="btn btn-danger">
+              <i class="bi bi-box-arrow-right"></i>Sair
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Script principal -->
+  <script src="/static/js/main.js"></script>
+</body>
+</html>

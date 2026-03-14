@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+{% block title %}Novo Livro{% endblock %}
+
+{% block content %}
+
+<div class="mb-1">
+  <h2 class="page-title mb-0">Cadastrar Livro</h2>
+  <div class="section-divider"></div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-lg-10">
+    <div class="card p-4 p-md-5 animate-fade">
+      <div class="card-header-custom">
+        <h5 class="card-title-custom">
+          <i class="bi bi-plus-square me-2" style="color:var(--clr-primary);"></i>
+          Dados do Novo Livro
+        </h5>
+      </div>
+
+      <form method="POST" action="{{ url_for('books.register_book') }}" novalidate>
+        <div class="row g-3">
+
+          <div class="col-md-8">
+            <label for="titulo" class="form-label">Título <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Título completo do livro" required>
+          </div>
+          <div class="col-md-4">
+            <label for="isbn" class="form-label">ISBN</label>
+            <input type="text" class="form-control" id="isbn" name="isbn" placeholder="978-0-00-000000-0">
+          </div>
+
+          <div class="col-md-6">
+            <label for="autor" class="form-label">Autor <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="autor" name="autor" placeholder="Nome do autor" required>
+          </div>
+          <div class="col-md-6">
+            <label for="editora" class="form-label">Editora</label>
+            <input type="text" class="form-control" id="editora" name="editora" placeholder="Nome da editora">
+          </div>
+
+          <div class="col-md-6">
+            <label for="genero" class="form-label">Gênero Literário</label>
+            <input type="text" class="form-control" id="genero" name="genero" placeholder="Ex: Romance, Ficção Científica">
+          </div>
+          <div class="col-md-3">
+            <label for="edicao" class="form-label">Edição</label>
+            <input type="text" class="form-control" id="edicao" name="edicao" placeholder="Ex: 3ª Edição">
+          </div>
+          <div class="col-md-3">
+            <label for="volume" class="form-label">Volume</label>
+            <input type="number" class="form-control" id="volume" name="volume" placeholder="1" min="1">
+          </div>
+
+          <div class="col-md-4">
+            <label for="publicacao" class="form-label">Ano de Publicação</label>
+            <input type="number" class="form-control" id="publicacao" name="publicacao" placeholder="2024" min="1000" max="2099">
+          </div>
+          <div class="col-md-4">
+            <label for="paginas" class="form-label">Nº de Páginas</label>
+            <input type="number" class="form-control" id="paginas" name="paginas" placeholder="320" min="1">
+          </div>
+          <div class="col-md-4">
+            <label for="exemplares" class="form-label">Qtd. de Exemplares <span class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="exemplares" name="exemplares" placeholder="1" min="1" required>
+          </div>
+
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4 pt-2 border-top" style="border-color:var(--clr-border)!important;">
+          <a href="{{ url_for('books.list_book') }}" class="btn btn-secondary">
+            <i class="bi bi-x-circle"></i>Cancelar
+          </a>
+          <button type="submit" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i>Cadastrar Livro
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

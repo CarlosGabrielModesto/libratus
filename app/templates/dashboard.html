@@ -1,0 +1,129 @@
+{% extends 'layout.html' %}
+{% block title %}Painel Gerencial{% endblock %}
+
+{% block content %}
+
+<!-- Banner de boas-vindas -->
+<div class="welcome-banner animate-fade">
+  <h3><i class="bi bi-hand-wave me-2"></i>Olá, {{ session.user_name }}!</h3>
+  <p>Utilize o menu acima para gerenciar usuários, livros, empréstimos e devoluções.</p>
+</div>
+
+<!-- Título da seção -->
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <div>
+    <h2 class="page-title mb-0">Painel Gerencial</h2>
+    <div class="section-divider"></div>
+  </div>
+</div>
+
+<!-- Stat cards -->
+<div class="row g-3 mb-4">
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card stat-card--primary">
+      <div class="stat-icon stat-icon--primary">
+        <i class="bi bi-book-half"></i>
+      </div>
+      <div class="stat-body">
+        <p class="stat-label">Total de Livros</p>
+        <p class="stat-value">{{ total_livros }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card stat-card--success">
+      <div class="stat-icon stat-icon--success">
+        <i class="bi bi-person-check"></i>
+      </div>
+      <div class="stat-body">
+        <p class="stat-label">Empréstimos Ativos</p>
+        <p class="stat-value">{{ emprestimos_ativos }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card stat-card--warning">
+      <div class="stat-icon stat-icon--warning">
+        <i class="bi bi-calendar-x"></i>
+      </div>
+      <div class="stat-body">
+        <p class="stat-label">Devoluções Atrasadas</p>
+        <p class="stat-value">{{ devolucoes_atrasadas }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-sm-6 col-xl-3">
+    <div class="stat-card stat-card--dark">
+      <div class="stat-icon stat-icon--dark">
+        <i class="bi bi-people-fill"></i>
+      </div>
+      <div class="stat-body">
+        <p class="stat-label">Total de Leitores</p>
+        <p class="stat-value">{{ total_leitores }}</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Atividades recentes -->
+<div class="card p-4">
+  <div class="card-header-custom">
+    <h5 class="card-title-custom">
+      <i class="bi bi-clock-history me-2" style="color:var(--clr-primary);"></i>
+      Atividades Recentes
+    </h5>
+    <a href="{{ url_for('books.list_rentals') }}" class="btn btn-info btn-sm">
+      Ver todos <i class="bi bi-arrow-right ms-1"></i>
+    </a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Leitor</th>
+          <th>Livro</th>
+          <th class="text-center">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for a in atividades_recentes %}
+        <tr>
+          <td style="color:var(--clr-text-secondary);font-size:.875rem;">
+            <i class="bi bi-calendar3 me-1"></i>
+            {{ a.data_emprestimo.strftime('%d/%m/%Y') }}
+          </td>
+          <td>{{ a.usuario.nome }}</td>
+          <td>{{ a.livro.titulo }}</td>
+          <td class="text-center">
+            {% if a.status == 'Ativo' %}
+              <span class="badge-status badge-ativo">Empréstimo</span>
+            {% elif a.status == 'Atrasado' %}
+              <span class="badge-status badge-atrasado">Atrasado</span>
+            {% elif a.status == 'Devolvido' %}
+              <span class="badge-status badge-devolvido">Devolvido</span>
+            {% else %}
+              <span class="badge-status" style="background:var(--clr-surface-2);color:var(--clr-text-muted);">{{ a.status }}</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="4" class="td-empty">
+            <i class="bi bi-inbox"></i>
+            Nenhuma atividade registrada ainda.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

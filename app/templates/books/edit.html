@@ -1,0 +1,87 @@
+{% extends 'layout.html' %}
+{% block title %}Editar Livro{% endblock %}
+
+{% block content %}
+
+<div class="mb-1">
+  <h2 class="page-title mb-0">Editar Livro</h2>
+  <div class="section-divider"></div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-lg-10">
+    <div class="card p-4 p-md-5 animate-fade">
+      <div class="card-header-custom">
+        <h5 class="card-title-custom">
+          <i class="bi bi-pencil-square me-2" style="color:var(--clr-accent);"></i>
+          Editar: <strong>{{ livro.titulo }}</strong>
+        </h5>
+        <span class="meta-chip">
+          <i class="bi bi-archive me-1"></i>{{ livro.emprestados }} emprestado(s)
+        </span>
+      </div>
+
+      <form method="POST" action="{{ url_for('books.edit_book', isbn=livro.isbn) }}" novalidate>
+        <div class="row g-3">
+
+          <div class="col-md-8">
+            <label for="titulo" class="form-label">Título <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="titulo" name="titulo" value="{{ livro.titulo }}" required>
+          </div>
+          <div class="col-md-4">
+            <label for="isbn" class="form-label">ISBN</label>
+            <input type="text" class="form-control" id="isbn" name="isbn" value="{{ livro.isbn }}" readonly
+                   data-bs-toggle="tooltip" title="O ISBN não pode ser alterado">
+          </div>
+
+          <div class="col-md-6">
+            <label for="autor" class="form-label">Autor <span class="text-danger">*</span></label>
+            <input type="text" class="form-control" id="autor" name="autor" value="{{ livro.autor }}" required>
+          </div>
+          <div class="col-md-6">
+            <label for="editora" class="form-label">Editora</label>
+            <input type="text" class="form-control" id="editora" name="editora" value="{{ livro.editora }}">
+          </div>
+
+          <div class="col-md-6">
+            <label for="genero" class="form-label">Gênero Literário</label>
+            <input type="text" class="form-control" id="genero" name="genero" value="{{ livro.genero_literario }}">
+          </div>
+          <div class="col-md-3">
+            <label for="edicao" class="form-label">Edição</label>
+            <input type="text" class="form-control" id="edicao" name="edicao" value="{{ livro.edicao or '' }}">
+          </div>
+          <div class="col-md-3">
+            <label for="volume" class="form-label">Volume</label>
+            <input type="number" class="form-control" id="volume" name="volume" value="{{ livro.volume or '' }}" min="1">
+          </div>
+
+          <div class="col-md-4">
+            <label for="publicacao" class="form-label">Ano de Publicação</label>
+            <input type="number" class="form-control" id="publicacao" name="publicacao" value="{{ livro.ano_publicacao or '' }}">
+          </div>
+          <div class="col-md-4">
+            <label for="paginas" class="form-label">Nº de Páginas</label>
+            <input type="number" class="form-control" id="paginas" name="paginas" value="{{ livro.numero_paginas or '' }}">
+          </div>
+          <div class="col-md-4">
+            <label for="exemplares" class="form-label">Qtd. de Exemplares <span class="text-danger">*</span></label>
+            <input type="number" class="form-control" id="exemplares" name="exemplares" value="{{ livro.exemplares }}" min="0" required>
+          </div>
+
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4 pt-2 border-top" style="border-color:var(--clr-border)!important;">
+          <a href="{{ url_for('books.list_book') }}" class="btn btn-secondary">
+            <i class="bi bi-x-circle"></i>Cancelar
+          </a>
+          <button type="submit" class="btn btn-warning-custom">
+            <i class="bi bi-pencil"></i>Salvar Alterações
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'layout.html' %}
+{% block title %}Novo Empréstimo{% endblock %}
+
+{% block content %}
+
+<div class="mb-1">
+  <h2 class="page-title mb-0">Registrar Empréstimo</h2>
+  <div class="section-divider"></div>
+</div>
+
+<div class="row justify-content-center">
+  <div class="col-lg-7">
+    <div class="card p-4 p-md-5 animate-fade">
+      <div class="card-header-custom">
+        <h5 class="card-title-custom">
+          <i class="bi bi-plus-square me-2" style="color:var(--clr-primary);"></i>
+          Detalhes do Empréstimo
+        </h5>
+      </div>
+
+      <form method="POST" action="{{ url_for('books.register_rental') }}" novalidate>
+        <div class="row g-3">
+
+          <div class="col-12">
+            <label for="leitor" class="form-label">Leitor <span class="text-danger">*</span></label>
+            <select class="form-select" id="leitor" name="leitor" required>
+              <option value="" disabled selected>Selecione o leitor</option>
+              {% for leitor in leitores %}
+                <option value="{{ leitor.id }}">{{ leitor.nome }} — CPF: {{ leitor.cpf }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-12">
+            <label for="livro" class="form-label">Livro <span class="text-danger">*</span></label>
+            <select class="form-select" id="livro" name="livro" required>
+              <option value="" disabled selected>Selecione o livro</option>
+              {% for livro in livros %}
+                <option value="{{ livro.id }}">
+                  {{ livro.titulo }} — {{ livro.disponiveis }} disponível(is)
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="dataEmprestimo" class="form-label">Data do Empréstimo</label>
+            <input type="date" class="form-control" id="dataEmprestimo"
+                   value="{{ today_date }}" readonly
+                   data-bs-toggle="tooltip" title="Data definida automaticamente">
+          </div>
+          <div class="col-md-6">
+            <label for="dataDevolucao" class="form-label">Devolução Prevista <span class="text-danger">*</span></label>
+            <input type="date" class="form-control" id="dataDevolucao" name="dataDevolucao"
+                   min="{{ tomorrow_date }}" required>
+          </div>
+
+        </div>
+
+        <!-- Aviso de prazo -->
+        <div class="mt-3 p-3 rounded" style="background:rgba(10,147,150,.06);border:1px solid rgba(10,147,150,.15);">
+          <p class="mb-0" style="font-size:.8125rem;color:var(--clr-primary-dark);">
+            <i class="bi bi-info-circle me-2"></i>
+            O prazo padrão de devolução é de <strong>14 dias</strong>. Certifique-se de selecionar uma data adequada.
+          </p>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4 pt-2 border-top" style="border-color:var(--clr-border)!important;">
+          <a href="{{ url_for('books.list_rentals') }}" class="btn btn-secondary">
+            <i class="bi bi-x-circle"></i>Cancelar
+          </a>
+          <button type="submit" class="btn btn-success">
+            <i class="bi bi-arrow-right-circle"></i>Confirmar Empréstimo
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

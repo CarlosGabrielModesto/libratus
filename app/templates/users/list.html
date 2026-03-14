@@ -1,0 +1,109 @@
+{% extends 'layout.html' %}
+{% block title %}Usuários{% endblock %}
+
+{% block content %}
+
+<div class="d-flex align-items-start justify-content-between mb-1 flex-wrap gap-3">
+  <div>
+    <h2 class="page-title mb-0">Gerenciar Usuários</h2>
+    <div class="section-divider"></div>
+  </div>
+  <a class="btn btn-success" href="{{ url_for('auth.register_user') }}">
+    <i class="bi bi-plus-circle"></i>Novo Usuário
+  </a>
+</div>
+
+<div class="card p-4 animate-fade">
+  <div class="card-header-custom">
+    <h5 class="card-title-custom">
+      <i class="bi bi-people me-2" style="color:var(--clr-primary);"></i>
+      Usuários Cadastrados
+    </h5>
+    <span class="meta-chip"><i class="bi bi-person me-1"></i>{{ users|length }} registros</span>
+  </div>
+
+  <div class="table-responsive">
+    <table class="custom-table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>CPF</th>
+          <th class="text-center">Perfil</th>
+          <th class="text-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr>
+          <td>
+            <div class="d-flex align-items-center gap-2">
+              <div style="width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--clr-primary-light),var(--clr-primary));display:flex;align-items:center;justify-content:center;color:#fff;font-size:.8rem;font-weight:700;flex-shrink:0;">
+                {{ user.nome[0].upper() }}
+              </div>
+              <span>{{ user.nome }}</span>
+            </div>
+          </td>
+          <td style="color:var(--clr-text-secondary);">{{ user.email }}</td>
+          <td style="font-family:monospace;font-size:.875rem;">{{ user.cpf }}</td>
+          <td class="text-center">
+            {% set tipo = user.tipo_usuario | lower %}
+            {% if tipo == 'leitor' %}
+              <span class="badge-status badge-leitor">Leitor</span>
+            {% elif 'bibliotec' in tipo %}
+              <span class="badge-status badge-bibliotecario">Bibliotecário</span>
+            {% else %}
+              <span class="badge-status badge-administrador">Administrador</span>
+            {% endif %}
+          </td>
+          <td class="text-center">
+            <div class="d-flex justify-content-center gap-2">
+              <a href="{{ url_for('auth.edit_user', user_id=user.id) }}"
+                 class="btn btn-warning-custom btn-sm btn-table">
+                <i class="bi bi-pencil"></i>Editar
+              </a>
+              <button type="button" class="btn btn-danger btn-sm btn-table"
+                      data-bs-toggle="modal" data-bs-target="#modalDelUser{{ user.id }}">
+                <i class="bi bi-trash"></i>Excluir
+              </button>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5" class="td-empty">
+            <i class="bi bi-people"></i>
+            Nenhum usuário cadastrado ainda.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% for user in users %}
+<div class="modal fade" id="modalDelUser{{ user.id }}" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"><i class="bi bi-exclamation-triangle me-2 text-danger"></i>Excluir Usuário</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+      </div>
+      <div class="modal-body text-center py-3">
+        <p class="mb-1">Deseja excluir o usuário</p>
+        <strong>{{ user.nome }}</strong>?
+        <p class="mt-2 mb-0" style="font-size:.8125rem;color:var(--clr-text-muted);">Esta ação não pode ser desfeita.</p>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+        <form method="post" action="{{ url_for('auth.delete_user', user_id=user.id) }}">
+          <button type="submit" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i>Confirmar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+
+{% endblock %}

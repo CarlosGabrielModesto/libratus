@@ -1,0 +1,53 @@
+# ── Python ─────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+.Python
+*.so
+
+# ── Ambiente virtual ────────────────────────────────────────────────────────
+.venv/
+venv/
+env/
+ENV/
+
+# ── Flask / aplicação ────────────────────────────────────────────────────────
+instance/
+.webassets-cache
+*.egg-info/
+
+# ── Banco de dados ───────────────────────────────────────────────────────────
+data/
+*.db
+*.sqlite
+*.sqlite3
+
+# ── Variáveis de ambiente ────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Editores e IDEs ──────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Build / distribuição ──────────────────────────────────────────────────────
+dist/
+build/
+*.egg-info/
+
+# ── Cobertura de testes ───────────────────────────────────────────────────────
+.coverage
+htmlcov/
+.pytest_cache/
