@@ -243,6 +243,6 @@ Distribuído sob a licença **MIT**. Veja o arquivo `LICENSE` para mais detalhes
 
 <div align="center">
 
-Desenvolvido com ♥ por **Carlos Gabriel dos Santos Modesto**
+Desenvolvido por **Carlos Gabriel dos Santos Modesto**
 
 </div>
