@@ -17,15 +17,15 @@
 
 ---
 
-## 📋 Sobre o Projeto
+## Sobre o projeto
 
-O **Libratus** é uma aplicação web full-stack para gestão de bibliotecas, desenvolvida com **Python + Flask** e **SQLite**. Permite o controle completo de usuários, acervo de livros e empréstimos, com interface moderna e responsiva.
+O **Libratus** é uma aplicação web full-stack para gestão de bibliotecas, desenvolvida com **Python + Flask** e **SQLite**. O sistema permite o gerenciamento de usuários, acervo de livros e empréstimos, com interface moderna e responsiva.
 
 Desenvolvido por **Carlos Gabriel dos Santos Modesto** como projeto de portfólio.
 
 ---
 
-## ✨ Funcionalidades
+## Funcionalidades
 
 | Módulo | Funcionalidades |
 |---|---|
@@ -37,9 +37,9 @@ Desenvolvido por **Carlos Gabriel dos Santos Modesto** como projeto de portfóli
 
 ---
 
-## 🗂️ Estrutura do Projeto
+## Estrutura do projeto
 
-```
+```text
 libratus/
 │
 ├── app/
@@ -81,7 +81,7 @@ libratus/
 
 ---
 
-## 🚀 Como Executar
+## Como executar
 
 ### Pré-requisitos
 
@@ -132,7 +132,7 @@ python -c "import secrets; print(secrets.token_hex(32))"
 python seed.py
 ```
 
-Isso cria o banco de dados, as tabelas e um usuário administrador padrão:
+Esse processo cria o banco de dados, as tabelas e um usuário administrador padrão:
 
 | Campo | Valor |
 |---|---|
@@ -151,7 +151,7 @@ Acesse: **[http://localhost:5000](http://localhost:5000)**
 
 ---
 
-## 🌐 Deploy em Produção (Gunicorn)
+## Deploy em produção (Gunicorn)
 
 ```bash
 gunicorn wsgi:app \
@@ -165,13 +165,13 @@ gunicorn wsgi:app \
 
 ---
 
-## 🗄️ Banco de Dados
+## Banco de dados
 
 O Libratus utiliza **SQLite 3** via **Flask-SQLAlchemy**. O schema é criado automaticamente ao iniciar a aplicação.
 
 ### Modelos
 
-```
+```text
 Usuario
   id · nome · cpf (único) · nascimento · endereco
   telefone · email (único) · senha (hash) · tipo_usuario · ativo
@@ -196,7 +196,7 @@ Emprestimo
 
 ---
 
-## 🎨 Design System
+## Design system
 
 A interface utiliza um sistema de design próprio construído sobre **Bootstrap 5.3** com variáveis CSS customizadas.
 
@@ -210,7 +210,7 @@ A interface utiliza um sistema de design próprio construído sobre **Bootstrap 
 
 ---
 
-## 🔒 Segurança
+## Segurança
 
 - Senhas armazenadas com **PBKDF2-SHA256** via Werkzeug
 - Sessões protegidas com `SECRET_KEY` via variável de ambiente
@@ -222,7 +222,7 @@ A interface utiliza um sistema de design próprio construído sobre **Bootstrap 
 
 ---
 
-## 🛠️ Tecnologias
+## Tecnologias
 
 | Camada | Tecnologia |
 |---|---|
@@ -235,7 +235,7 @@ A interface utiliza um sistema de design próprio construído sobre **Bootstrap 
 
 ---
 
-## 📄 Licença
+## Licença
 
 Distribuído sob a licença **MIT**. Veja o arquivo `LICENSE` para mais detalhes.
 
